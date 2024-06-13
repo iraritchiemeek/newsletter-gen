@@ -1,10 +1,11 @@
 FROM tiangolo/uvicorn-gunicorn-fastapi:python3.10
 
-WORKDIR /app
+WORKDIR /app/
 
-COPY requirements.txt /app/
-RUN pip install --no-cache-dir -r requirements.txt
+COPY ./requirements.txt /code/requirements.txt
 
-COPY . /app/
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
-CMD ["python", "app/db.py"]
+COPY ./app /app
+
+CMD ["sh", "-c", "python /app/db.py && uvicorn main:app --reload --host 0.0.0.0 --port 8000"]
