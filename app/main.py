@@ -8,4 +8,4 @@ app.include_router(embeddings.router)
 
 @app.get("/")
 async def root():
-    return {"message": "Hello Bigger Applications!"}
+    return {"Hello World"}

@@ -11,9 +11,9 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
-  api:
+  app:
     build: .
-    container_name: "api"
+    container_name: "app"
     volumes:
       - ./app:/app
     ports:

@@ -12,6 +12,8 @@ DB_NAME = os.getenv("DB_NAME")
 DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@db/{DB_NAME}"
 SERVER_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@db/postgres"
 
+engine = create_engine(DATABASE_URL, echo=True)
+
 def create_db_and_add_extension():
   server_engine = create_engine(SERVER_URL, isolation_level="AUTOCOMMIT", echo=True)
   with server_engine.connect() as connection:
@@ -20,8 +22,10 @@ def create_db_and_add_extension():
       connection.execute(text(f'CREATE DATABASE {DB_NAME}'))
     result.close()
 
-  engine = create_engine(DATABASE_URL, echo=True)
   with Session(engine) as session:
     session.exec(text('CREATE EXTENSION IF NOT EXISTS vector'))
     session.commit()
   SQLModel.metadata.create_all(engine)
+
+if __name__ == "__main__":
+  create_db_and_add_extension()
