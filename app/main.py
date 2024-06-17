@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 
-from routers import embeddings
+from routers import chat
 
 app = FastAPI()
 
-app.include_router(embeddings.router)
+app.include_router(chat.router)
 
 @app.get("/")
 async def root():
